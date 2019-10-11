@@ -1,9 +1,8 @@
 - name: "Add docker apt key"
   apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
+    url: https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg
     state: present
 
-# Release part can probably be templated using ansible facts.
 - name: "Install docker apt repository"
   apt_repository:
     repo: deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable
@@ -46,7 +45,7 @@
   vars:
     packages:
       - linux-aws
-  when: ansible_distribution == 'Ubuntu' 
+  when: ansible_distribution == 'Ubuntu'
 
 - name: "Add user to docker group"
   user:
@@ -61,7 +60,7 @@
     masked: no
     state: started
 
-- name: "Install docker packages"
+- name: "Install pip2 packages"
   pip:
     name: "{{ pippkgs }}"
     executable: pip2
@@ -71,9 +70,9 @@
       - pip
       - docker
       - docker-compose
-      - PyYAML 
+      - PyYAML
 
-- name: "Install pip3 docker packages"
+- name: "Install pip3 packages"
   pip:
     name: "{{ pippkgs }}"
     executable: pip3
@@ -83,7 +82,7 @@
       - pip
       - docker
       - docker-compose
-      - PyYAML 
+      - PyYAML
 
 - name: "Create hard core limit file"
   file:
